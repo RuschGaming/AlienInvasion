@@ -3,28 +3,28 @@
     var vendors = ['ms', 'moz', 'webkit', 'o'];
     for(var x = 0; x < vendors.length && !window.requestAnimationFrame; ++x) {
         window.requestAnimationFrame = window[vendors[x]+'RequestAnimationFrame'];
-        window.cancelAnimationFrame = 
+        window.cancelAnimationFrame =
           window[vendors[x]+'CancelAnimationFrame'] || window[vendors[x]+'CancelRequestAnimationFrame'];
     }
- 
+
     if (!window.requestAnimationFrame)
         window.requestAnimationFrame = function(callback, element) {
             var currTime = new Date().getTime();
             var timeToCall = Math.max(0, 16 - (currTime - lastTime));
-            var id = window.setTimeout(function() { callback(currTime + timeToCall); }, 
+            var id = window.setTimeout(function() { callback(currTime + timeToCall); },
               timeToCall);
             lastTime = currTime + timeToCall;
             return id;
         };
- 
+
     if (!window.cancelAnimationFrame)
         window.cancelAnimationFrame = function(id) {
             clearTimeout(id);
         };
 }());
-  
 
-var Game = new function() {                                                                  
+
+var Game = new function() {
   var boards = [];
 
   // Game Initialization
@@ -43,7 +43,7 @@ var Game = new function() {
 
     this.setupInput();
 
-    this.loop(); 
+    this.loop();
 
     if(this.mobile) {
       this.setBoard(4,new TouchControls());
@@ -51,7 +51,7 @@ var Game = new function() {
 
     SpriteSheet.load(sprite_data,callback);
   };
-  
+
 
   // Handle Input
   var KEY_CODES = { 37:'left', 39:'right', 32 :'fire' };
@@ -67,7 +67,7 @@ var Game = new function() {
 
     window.addEventListener('keyup',function(e) {
       if(KEY_CODES[e.keyCode]) {
-       Game.keys[KEY_CODES[e.keyCode]] = false; 
+       Game.keys[KEY_CODES[e.keyCode]] = false;
        e.preventDefault();
       }
     },false);
@@ -77,21 +77,21 @@ var Game = new function() {
   var lastTime = new Date().getTime();
   var maxTime = 1/30;
   // Game Loop
-  this.loop = function() { 
+  this.loop = function() {
     var curTime = new Date().getTime();
     requestAnimationFrame(Game.loop);
     var dt = (curTime - lastTime)/1000;
     if(dt > maxTime) { dt = maxTime; }
 
     for(var i=0,len = boards.length;i<len;i++) {
-      if(boards[i]) { 
+      if(boards[i]) {
         boards[i].step(dt);
         boards[i].draw(Game.ctx);
       }
     }
     lastTime = curTime;
   };
-  
+
   // Change an active game board
   this.setBoard = function(num,board) { boards[num] = board; };
 
@@ -100,7 +100,7 @@ var Game = new function() {
     var container = document.getElementById("container"),
         hasTouch =  !!('ontouchstart' in window),
         w = window.innerWidth, h = window.innerHeight;
-      
+
     if(hasTouch) { this.mobile = true; }
 
     if(screen.width >= 1280 || !hasTouch) { return false; }
@@ -139,9 +139,9 @@ var Game = new function() {
 
 
 var SpriteSheet = new function() {
-  this.map = { }; 
+  this.map = { };
 
-  this.load = function(spriteData,callback) { 
+  this.load = function(spriteData,callback) {
     this.map = spriteData;
     this.image = new Image();
     this.image.onload = callback;
@@ -152,9 +152,9 @@ var SpriteSheet = new function() {
     var s = this.map[sprite];
     if(!frame) frame = 0;
     ctx.drawImage(this.image,
-                     s.sx + frame * s.w, 
-                     s.sy, 
-                     s.w, s.h, 
+                     s.sx + frame * s.w,
+                     s.sy,
+                     s.w, s.h,
                      Math.floor(x), Math.floor(y),
                      s.w, s.h);
   };
@@ -162,23 +162,39 @@ var SpriteSheet = new function() {
   return this;
 };
 
-var TitleScreen = function TitleScreen(title,subtitle,callback) {
+var TitleScreen = function TitleScreen(title,subtitle,callback, lvl) {
   var up = false;
   this.step = function(dt) {
     if(!Game.keys['fire']) up = true;
-    if(up && Game.keys['fire'] && callback) callback();
+    if(up && Game.keys['fire'] && callback) {
+        if (lvl) {
+            callback(lvl);
+        } else {
+            callback();
+        }
+    }
   };
 
   this.draw = function(ctx) {
+
+
+    ctx.fillStyle = "rgba(0,0,0,0.4)";
+    ctx.fillRect(11, 11, Game.width - 22, Game.height - 22);
+
+    ctx.strokeStyle = "white";
+    ctx.strokeRect(10, 10, Game.width - 20, Game.height - 20);
+
     ctx.fillStyle = "#FFFFFF";
 
-    ctx.font = "bold 40px bangers";
-    var measure = ctx.measureText(title);  
-    ctx.fillText(title,Game.width/2 - measure.width/2,Game.height/2);
+    ctx.textAlign = "center";
 
-    ctx.font = "bold 20px bangers";
+    ctx.font = "bold 22px arial";
+    var measure = ctx.measureText(title);
+    ctx.fillText(title,Game.width/2,Game.height/2);
+
+    ctx.font = "bold 14px arial";
     var measure2 = ctx.measureText(subtitle);
-    ctx.fillText(subtitle,Game.width/2 - measure2.width/2,Game.height/2 + 40);
+    ctx.fillText(subtitle,Game.width/2,Game.height/2 + 40, Game.width - 60);
   };
 };
 
@@ -191,18 +207,18 @@ var GameBoard = function() {
   this.cnt = {};
 
   // Add a new object to the object list
-  this.add = function(obj) { 
-    obj.board=this; 
-    this.objects.push(obj); 
+  this.add = function(obj) {
+    obj.board=this;
+    this.objects.push(obj);
     this.cnt[obj.type] = (this.cnt[obj.type] || 0) + 1;
-    return obj; 
+    return obj;
   };
 
   // Mark an object for removal
-  this.remove = function(obj) { 
+  this.remove = function(obj) {
     var idx = this.removed.indexOf(obj);
     if(idx == -1) {
-      this.removed.push(obj); 
+      this.removed.push(obj);
       return true;
     } else {
       return false;
@@ -223,7 +239,7 @@ var GameBoard = function() {
     }
   };
 
-  // Call the same method on all current objects 
+  // Call the same method on all current objects
   this.iterate = function(funcName) {
      var args = Array.prototype.slice.call(arguments,1);
      for(var i=0,len=this.objects.length;i<len;i++) {
@@ -242,7 +258,7 @@ var GameBoard = function() {
 
   // Call step on all objects and them delete
   // any object that have been marked for removal
-  this.step = function(dt) { 
+  this.step = function(dt) {
     this.resetRemoved();
     this.iterate('step',dt);
     this.finalizeRemoved();
@@ -253,7 +269,7 @@ var GameBoard = function() {
     this.iterate('draw',ctx);
   };
 
-  // Check for a collision between the 
+  // Check for a collision between the
   // bounding rects of two objects
   this.overlap = function(o1,o2) {
     return !((o1.y+o1.h-1<o2.y) || (o1.y>o2.y+o2.h-1) ||
@@ -318,9 +334,9 @@ Level.prototype.step = function(dt) {
 
   //   Start, End,  Gap, Type,   Override
   // [ 0,     4000, 500, 'step', { x: 100 } ]
-  while((curShip = this.levelData[idx]) && 
+  while((curShip = this.levelData[idx]) &&
         (curShip[0] < this.t + 2000)) {
-    // Check if we've passed the end time 
+    // Check if we've passed the end time
     if(this.t > curShip[1]) {
       remove.push(curShip);
     } else if(curShip[0] < this.t) {
@@ -343,7 +359,7 @@ Level.prototype.step = function(dt) {
     if(remIdx != -1) this.levelData.splice(remIdx,1);
   }
 
-  // If there are no more enemies on the board or in 
+  // If there are no more enemies on the board or in
   // levelData, this level is done
   if(this.levelData.length === 0 && this.board.cnt[OBJECT_ENEMY] === 0) {
     if(this.callback) this.callback();
@@ -371,8 +387,8 @@ var TouchControls = function() {
 
     var txtSize = ctx.measureText(txt);
 
-    ctx.fillText(txt, 
-                 x+blockWidth/2-txtSize.width/2, 
+    ctx.fillText(txt,
+                 x+blockWidth/2-txtSize.width/2,
                  y+3*blockWidth/4+5);
   };
 
@@ -400,10 +416,10 @@ var TouchControls = function() {
       x = touch.pageX / Game.canvasMultiplier - Game.canvas.offsetLeft;
       if(x < unitWidth) {
         Game.keys['left'] = true;
-      } 
+      }
       if(x > unitWidth && x < 2*unitWidth) {
         Game.keys['right'] = true;
-      } 
+      }
     }
 
     if(e.type == 'touchstart' || e.type == 'touchend') {
@@ -432,18 +448,23 @@ var TouchControls = function() {
 var GamePoints = function() {
   Game.points = 0;
 
-  var pointsLength = 8;
+  var pointsLength = 4;
 
   this.draw = function(ctx) {
     ctx.save();
-    ctx.font = "bold 18px arial";
+
+    ctx.fillStyle = "rgba(0,0,0,0.4)";
+    ctx.fillRect(10,10, 100, 30);
+
+    ctx.font = "bold 14px arial";
     ctx.fillStyle= "#FFFFFF";
 
-    var txt = "" + Game.points;
+    var txt = "Уничтожено игр: " + Game.points;
     var i = pointsLength - txt.length, zeros = "";
     while(i-- > 0) { zeros += "0"; }
 
-    ctx.fillText(zeros + txt,10,20);
+    ctx.textAlign = "left";
+    ctx.fillText(zeros + txt,20,30);
     ctx.restore();
 
   };

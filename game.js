@@ -1,6 +1,6 @@
 var sprites = {
  ship: { sx: 0, sy: 0, w: 37, h: 42, frames: 1 },
- missile: { sx: 0, sy: 30, w: 2, h: 10, frames: 1 },
+ missile: { sx: 15, sy: 49, w: 2, h: 10, frames: 1 },
  enemy_purple: { sx: 37, sy: 0, w: 42, h: 43, frames: 1 },
  enemy_bee: { sx: 79, sy: 0, w: 37, h: 43, frames: 1 },
  enemy_ship: { sx: 116, sy: 0, w: 42, h: 43, frames: 1 },
@@ -10,13 +10,13 @@ var sprites = {
 };
 
 var enemies = {
-  straight: { x: 0,   y: -50, sprite: 'enemy_ship', health: 10, 
+  straight: { x: 0,   y: -50, sprite: 'enemy_ship', health: 10,
               E: 100 },
-  ltr:      { x: 0,   y: -100, sprite: 'enemy_purple', health: 10, 
+  ltr:      { x: 0,   y: -100, sprite: 'enemy_purple', health: 10,
               B: 75, C: 1, E: 100, missiles: 2  },
-  circle:   { x: 250,   y: -50, sprite: 'enemy_circle', health: 10, 
+  circle:   { x: 250,   y: -50, sprite: 'enemy_circle', health: 10,
               A: 0,  B: -100, C: 1, E: 20, F: 100, G: 1, H: Math.PI/2 },
-  wiggle:   { x: 100, y: -50, sprite: 'enemy_bee', health: 20, 
+  wiggle:   { x: 100, y: -50, sprite: 'enemy_bee', health: 20,
               B: 50, C: 4, E: 100, firePercentage: 0.001, missiles: 2 },
   step:     { x: 0,   y: -50, sprite: 'enemy_circle', health: 10,
               B: 150, C: 1.2, E: 75 }
@@ -26,7 +26,9 @@ var OBJECT_PLAYER = 1,
     OBJECT_PLAYER_PROJECTILE = 2,
     OBJECT_ENEMY = 4,
     OBJECT_ENEMY_PROJECTILE = 8,
-    OBJECT_POWERUP = 16;
+    OBJECT_POWERUP = 16,
+    PHRAZE_TOGGLE = false,
+    LEVEL = 0;
 
 var startGame = function() {
   var ua = navigator.userAgent.toLowerCase();
@@ -38,57 +40,149 @@ var startGame = function() {
     Game.setBoard(0,new Starfield(20,0.4,100,true));
     Game.setBoard(1,new Starfield(50,0.6,100));
     Game.setBoard(2,new Starfield(100,1.0,50));
-  }  
-  Game.setBoard(3,new TitleScreen("Alien Invasion", 
-                                  "Press fire to start playing",
+  }
+  Game.setBoard(3,new TitleScreen("Симулятор Мединского",
+                                  "Нажмите пробел для начала",
                                   playGame));
+  randPhrase();
 };
 
-var level1 = [
- // Start,   End, Gap,  Type,   Override
-  [ 0,      4000,  500, 'step' ],
-  [ 6000,   13000, 800, 'ltr' ],
-  [ 10000,  16000, 400, 'circle' ],
-  [ 17800,  20000, 500, 'straight', { x: 50 } ],
-  [ 18200,  20000, 500, 'straight', { x: 90 } ],
-  [ 18200,  20000, 500, 'straight', { x: 10 } ],
-  [ 22000,  25000, 400, 'wiggle', { x: 150 }],
-  [ 22000,  25000, 400, 'wiggle', { x: 100 }]
+var randPhrase = function() {
+    if(PHRAZE_TOGGLE){
+        var phrase = phrases[getRandomInt(0, phrases.length - 1)]
+        var element = document.getElementById('phrase');
+        element.innerHTML = phrase;
+    }
+
+    setTimeout(function(){
+        //randPhrase();
+    }, getRandomInt(5000, 7000));
+}
+
+var sayPhrase = function(phrase) {
+    var element = document.getElementById('phrase');
+    element.innerHTML = phrase;
+}
+
+function getRandomInt(min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+
+var levels = [
+    [
+        // Start,   End, Gap,  Type,   Override
+        [ 0,      4000,  500, 'step' ],
+        [ 6000,   13000, 800, 'ltr' ],
+        [ 10000,  16000, 400, 'circle' ],
+        [ 17800,  20000, 500, 'straight', { x: 50 } ],
+        [ 18200,  20000, 500, 'straight', { x: 90 } ],
+        [ 18200,  20000, 500, 'straight', { x: 10 } ],
+        [ 22000,  25000, 400, 'wiggle', { x: 150 }],
+        [ 22000,  25000, 400, 'wiggle', { x: 100 }]
+    ],
+    [
+        // Start,   End, Gap,  Type,   Override
+        [ 0,      4000,  500, 'step' ],
+        [ 6000,   13000, 800, 'ltr' ],
+        [ 10000,  16000, 400, 'circle' ],
+        [ 17800,  20000, 500, 'straight', { x: 50 } ],
+        [ 18200,  20000, 500, 'straight', { x: 90 } ],
+        [ 18200,  20000, 500, 'straight', { x: 10 } ],
+        [ 22000,  25000, 400, 'wiggle', { x: 150 }],
+        [ 22000,  25000, 400, 'wiggle', { x: 100 }]
+    ]
+];
+
+var phrases = [
+    "Культура и покемоны не имеют ничего общего.",
+    "[Игры] – это зло, это пожиратели, как у Стивена Кинга, которые пожирали пространство и время.",
+    "Культура пронизывает все сферы человеческой жизни... какие рубашки носим и как часто меняем носки.",
+    "Я сам у себя дома почти все телеканалы заблокировал, чтобы дети не смотрели.",
+    "Я сам чуть-чуть писатель",
+    "Когда был Ленин маленький, С кудрявой головой, Носил он Reebok старенький И Levis голубой.",
+    "Кто у нас либералы, вы мне скажите? Интернет-кликуши и их кумиры? Это не либералы, это тоталитарная секта — по части терпимости те, кого принято именовать «мракобесами и ретроградами», гораздо терпимее и объективнее так называемых либералов."
 ];
 
 
 
 var playGame = function() {
-  var board = new GameBoard();
-  board.add(new PlayerShip());
-  board.add(new Level(level1,winGame));
-  Game.setBoard(3,board);
+  //var board = new GameBoard();
+  //board.add(new PlayerShip());
+  //board.add(new Level(level1,winGame));
+  //Game.setBoard(3,board);
+  launchLvl(0);
   Game.setBoard(5,new GamePoints(0));
+
+  PHRAZE_TOGGLE = true;
+  changeMed('');
+  sayPhrase("Я готов!");
 };
 
+var launchLvl = function(lvl) {
+    var board = new GameBoard();
+    board.add(new PlayerShip());
+    if (LEVEL + 1 === levels.length) {
+        board.add(new Level(levels[LEVEL], winGame));
+    } else {
+        board.add(new Level(levels[LEVEL], winLvl));
+    }
+    Game.setBoard(3, board);
+}
+
+var winLvl = function() {
+  changeMed('win');
+  sayPhrase(phrases[LEVEL]);
+
+  LEVEL += 1;
+  Game.setBoard(3,new TitleScreen("Уровень пройден!",
+                                  "Нажмите «огонь», чтобы уничтожить еще игр",
+                                  launchLvl, LEVEL));
+};
+
+
 var winGame = function() {
-  Game.setBoard(3,new TitleScreen("You win!", 
-                                  "Press fire to play again",
+  Game.setBoard(3,new TitleScreen("Победа!",
+                                  "Нажмите «огонь», чтобы уничтожить еще игр",
                                   playGame));
+  changeMed('win');
+  sayPhrase("Самое отвратительное – это компьютерные игры.");
 };
 
 var loseGame = function() {
-  Game.setBoard(3,new TitleScreen("You lose!", 
-                                  "Press fire to play again",
+  Game.setBoard(3,new TitleScreen("Игры вас победили",
+                                  "Нажмите «огнь», чтобы сразиться со злом",
                                   playGame));
+  changeMed('loose');
+  sayPhrase("[...] зная свою слабость, в компьютерные игры не играю. Надо понимать, что детям этого нельзя совсем. Это зло.");
 };
+
+var changeMed = function(type) {
+    switch (type) {
+        case 'win':
+            document.getElementById('phrases').classList.add('win');
+            break;
+        case 'loose':
+            document.getElementById('phrases').classList.add('loose');
+            break;
+        default:
+            document.getElementById('phrases').classList.remove('loose');
+            document.getElementById('phrases').classList.remove('win');
+            break;
+    }
+}
 
 var Starfield = function(speed,opacity,numStars,clear) {
 
   // Set up the offscreen canvas
   var stars = document.createElement("canvas");
-  stars.width = Game.width; 
+  stars.width = Game.width;
   stars.height = Game.height;
   var starCtx = stars.getContext("2d");
 
   var offset = 0;
 
-  // If the clear option is set, 
+  // If the clear option is set,
   // make the background black instead of transparent
   if(clear) {
     starCtx.fillStyle = "#000";
@@ -139,7 +233,7 @@ var Starfield = function(speed,opacity,numStars,clear) {
   };
 };
 
-var PlayerShip = function() { 
+var PlayerShip = function() {
   this.setup('ship', { vx: 0, reloadTime: 0.25, maxVel: 200 });
 
   this.reload = this.reloadTime;
@@ -154,7 +248,7 @@ var PlayerShip = function() {
     this.x += this.vx * dt;
 
     if(this.x < 0) { this.x = 0; }
-    else if(this.x > Game.width - this.w) { 
+    else if(this.x > Game.width - this.w) {
       this.x = Game.width - this.w;
     }
 
@@ -163,8 +257,8 @@ var PlayerShip = function() {
       Game.keys['fire'] = false;
       this.reload = this.reloadTime;
 
-      this.board.add(new PlayerMissile(this.x,this.y+this.h/2));
-      this.board.add(new PlayerMissile(this.x+this.w,this.y+this.h/2));
+      this.board.add(new PlayerMissile(this.x+8,this.y-3+this.h/2));
+      this.board.add(new PlayerMissile(this.x-16+this.w,this.y-3+this.h/2));
     }
   };
 };
@@ -182,7 +276,7 @@ PlayerShip.prototype.hit = function(damage) {
 var PlayerMissile = function(x,y) {
   this.setup('missile',{ vy: -700, damage: 10 });
   this.x = x - this.w/2;
-  this.y = y - this.h; 
+  this.y = y - this.h;
 };
 
 PlayerMissile.prototype = new Sprite();
@@ -194,8 +288,8 @@ PlayerMissile.prototype.step = function(dt)  {
   if(collision) {
     collision.hit(this.damage);
     this.board.remove(this);
-  } else if(this.y < -this.h) { 
-      this.board.remove(this); 
+  } else if(this.y < -this.h) {
+      this.board.remove(this);
   }
 };
 
@@ -209,9 +303,9 @@ var Enemy = function(blueprint,override) {
 Enemy.prototype = new Sprite();
 Enemy.prototype.type = OBJECT_ENEMY;
 
-Enemy.prototype.baseParameters = { A: 0, B: 0, C: 0, D: 0, 
+Enemy.prototype.baseParameters = { A: 0, B: 0, C: 0, D: 0,
                                    E: 0, F: 0, G: 0, H: 0,
-                                   t: 0, reloadTime: 0.75, 
+                                   t: 0, reloadTime: 0.75,
                                    reload: 0 };
 
 Enemy.prototype.step = function(dt) {
@@ -252,8 +346,8 @@ Enemy.prototype.hit = function(damage) {
   this.health -= damage;
   if(this.health <=0) {
     if(this.board.remove(this)) {
-      Game.points += this.points || 100;
-      this.board.add(new Explosion(this.x + this.w/2, 
+      Game.points += this.points || 1;
+      this.board.add(new Explosion(this.x + this.w/2,
                                    this.y + this.h/2));
     }
   }
@@ -275,7 +369,7 @@ EnemyMissile.prototype.step = function(dt)  {
     collision.hit(this.damage);
     this.board.remove(this);
   } else if(this.y > Game.height) {
-      this.board.remove(this); 
+      this.board.remove(this);
   }
 };
 
@@ -299,5 +393,3 @@ Explosion.prototype.step = function(dt) {
 window.addEventListener("load", function() {
   Game.initialize("game",sprites,startGame);
 });
-
-

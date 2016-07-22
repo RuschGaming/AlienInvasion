@@ -10,12 +10,19 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 </head>
 <body>
+<div class="wrapper">
   <div id='container'>
     <canvas id='game' width='320' height='480'></canvas>
+    <div class="phrases" id="phrases">
+        <img class="logo" src="./images/logo.png"></img>
+        <div id="phrase" class="phrase">
+            Я готов!
+        </div>
+    </div>
+    <div class="clearfix"></div>
   </div>
+</div>
   <script src='engine.js'></script>
   <script src='game.js'></script>
 </body>
 </html>
-
-
