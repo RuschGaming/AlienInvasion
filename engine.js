@@ -105,34 +105,6 @@ var Game = new function() {
 
     if(screen.width >= 1280 || !hasTouch) { return false; }
 
-    if(w > h) {
-      alert("Please rotate the device and then click OK");
-      w = window.innerWidth; h = window.innerHeight;
-    }
-
-    container.style.height = h*2 + "px";
-    window.scrollTo(0,1);
-
-    h = window.innerHeight + 2;
-    container.style.height = h + "px";
-    container.style.width = w + "px";
-    container.style.padding = 0;
-
-    if(h >= this.canvas.height * 1.75 || w >= this.canvas.height * 1.75) {
-      this.canvasMultiplier = 2;
-      this.canvas.width = w / 2;
-      this.canvas.height = h / 2;
-      this.canvas.style.width = w + "px";
-      this.canvas.style.height = h + "px";
-    } else {
-      this.canvas.width = w;
-      this.canvas.height = h;
-    }
-
-    this.canvas.style.position='absolute';
-    this.canvas.style.left="0px";
-    this.canvas.style.top="0px";
-
   };
 
 };
@@ -341,7 +313,7 @@ Level.prototype.step = function(dt) {
       remove.push(curShip);
     } else if(curShip[0] < this.t) {
       // Get the enemy definition blueprint
-      var enemy = enemies[curShip[3]],
+      var enemy = enemies[LEVEL][curShip[3]],
           override = curShip[4];
 
       // Add a new enemy with the blueprint and override
@@ -454,12 +426,12 @@ var GamePoints = function() {
     ctx.save();
 
     ctx.fillStyle = "rgba(0,0,0,0.4)";
-    ctx.fillRect(10,10, 100, 30);
+    ctx.fillRect(11,11, 140, 30);
 
     ctx.font = "bold 14px arial";
     ctx.fillStyle= "#FFFFFF";
 
-    var txt = "Уничтожено игр: " + Game.points;
+    var txt = "Запрещено игр: " + Game.points;
     var i = pointsLength - txt.length, zeros = "";
     while(i-- > 0) { zeros += "0"; }
 

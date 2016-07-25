@@ -1,26 +1,63 @@
 var sprites = {
  ship: { sx: 0, sy: 0, w: 37, h: 42, frames: 1 },
  missile: { sx: 15, sy: 49, w: 2, h: 10, frames: 1 },
- enemy_purple: { sx: 37, sy: 0, w: 42, h: 43, frames: 1 },
- enemy_bee: { sx: 79, sy: 0, w: 37, h: 43, frames: 1 },
- enemy_ship: { sx: 116, sy: 0, w: 42, h: 43, frames: 1 },
- enemy_circle: { sx: 158, sy: 0, w: 32, h: 33, frames: 1 },
+ charmander: { sx: 190, sy: 0, w: 33, h: 28, frames: 1 },
+ pokeball: { sx: 158, sy: 0, w: 32, h: 33, frames: 1 },
+ slowpoke: { sx: 116, sy: 0, w: 42, h: 43, frames: 1 },
+ pika: { sx: 79, sy: 0, w: 37, h: 43, frames: 1 },
+ squirtle: { sx: 37, sy: 0, w: 42, h: 33, frames: 1 },
+ tetris_stick: { sx: 224, sy: 0, w: 10, h: 40, frames: 1 },
+ tetris_blue: { sx: 234, sy: 0, w: 21, h: 32, frames: 1 },
+ tetris_red: { sx: 255, sy: 0, w: 31, h: 21, frames: 1 },
+ tetris_purple: { sx: 286, sy: 0, w: 31, h: 21, frames: 1 },
+ tetris_green: { sx: 317, sy: 0, w: 21, h: 31, frames: 1 },
+ doom_head: { sx: 338, sy: 0, w: 40, h: 30, frames: 1 },
+ doom_e: { sx: 378, sy: 0, w: 23, h: 39, frames: 1 },
+ doom_soul: { sx: 401, sy: 0, w: 34, h: 40, frames: 1 },
+ doom_pinky: { sx: 435, sy: 0, w: 29, h: 40, frames: 1 },
+ doom_caco: { sx: 464, sy: 0, w: 31, h: 31, frames: 1 },
  explosion: { sx: 0, sy: 64, w: 64, h: 64, frames: 12 },
- enemy_missile: { sx: 9, sy: 42, w: 3, h: 20, frame: 1, }
+ enemy_missile: { sx: 9, sy: 42, w: 3, h: 20, frame: 1, },
 };
 
-var enemies = {
-  straight: { x: 0,   y: -50, sprite: 'enemy_ship', health: 10,
-              E: 100 },
-  ltr:      { x: 0,   y: -100, sprite: 'enemy_purple', health: 10,
-              B: 75, C: 1, E: 100, missiles: 2  },
-  circle:   { x: 250,   y: -50, sprite: 'enemy_circle', health: 10,
-              A: 0,  B: -100, C: 1, E: 20, F: 100, G: 1, H: Math.PI/2 },
-  wiggle:   { x: 100, y: -50, sprite: 'enemy_bee', health: 20,
-              B: 50, C: 4, E: 100, firePercentage: 0.001, missiles: 2 },
-  step:     { x: 0,   y: -50, sprite: 'enemy_circle', health: 10,
-              B: 150, C: 1.2, E: 75 }
-};
+var enemies = [
+    {
+      straight: { x: 0,   y: -50, sprite: 'pokeball', health: 10,
+                  E: 100 },
+      ltr:      { x: 0,   y: -100, sprite: 'slowpoke', health: 10,
+                  B: 75, C: 1, E: 100, missiles: 2  },
+      circle:   { x: 250,   y: -50, sprite: 'pika', health: 10,
+                  A: 0,  B: -100, C: 1, E: 20, F: 100, G: 1, H: Math.PI/2 },
+      wiggle:   { x: 100, y: -50, sprite: 'squirtle', health: 20,
+                  B: 50, C: 4, E: 100, firePercentage: 0.001, missiles: 2 },
+      step:     { x: 0,   y: -50, sprite: 'charmander', health: 10,
+                  B: 150, C: 1.2, E: 75 }
+    },
+    {
+      straight: { x: 0,   y: -50, sprite: 'tetris_stick', health: 10,
+                  E: 100 },
+      ltr:      { x: 0,   y: -100, sprite: 'tetris_red', health: 10,
+                  B: 75, C: 1, E: 100, missiles: 2  },
+      circle:   { x: 250,   y: -50, sprite: 'tetris_blue', health: 10,
+                  A: 0,  B: -100, C: 1, E: 20, F: 100, G: 1, H: Math.PI/2 },
+      wiggle:   { x: 100, y: -50, sprite: 'tetris_green', health: 20,
+                  B: 50, C: 4, E: 100, firePercentage: 0.001, missiles: 2 },
+      step:     { x: 0,   y: -50, sprite: 'tetris_purple', health: 10,
+                  B: 150, C: 1.2, E: 75 }
+    },
+    {
+      straight: { x: 0,   y: -50, sprite: 'doom_pinky', health: 10,
+                  E: 100 },
+      ltr:      { x: 0,   y: -100, sprite: 'doom_e', health: 10,
+                  B: 75, C: 1, E: 100, missiles: 2  },
+      circle:   { x: 250,   y: -50, sprite: 'doom_caco', health: 10,
+                  A: 0,  B: -100, C: 1, E: 20, F: 100, G: 1, H: Math.PI/2 },
+      wiggle:   { x: 100, y: -50, sprite: 'doom_soul', health: 20,
+                  B: 50, C: 4, E: 100, firePercentage: 0.001, missiles: 2 },
+      step:     { x: 0,   y: -50, sprite: 'doom_head', health: 10,
+                  B: 150, C: 1.2, E: 75 }
+    }
+];
 
 var OBJECT_PLAYER = 1,
     OBJECT_PLAYER_PROJECTILE = 2,
@@ -28,9 +65,45 @@ var OBJECT_PLAYER = 1,
     OBJECT_ENEMY_PROJECTILE = 8,
     OBJECT_POWERUP = 16,
     PHRAZE_TOGGLE = false,
-    LEVEL = 0;
+    LEVEL = 0,
+    POINTS = 0,
+    SHARE_VISIBLE = false,
+    SCORE = 0;
+
+function pad(num, size) {
+    var s = num+"";
+    while (s.length < size) s = "0" + s;
+    return s;
+}
+
+function addPointsToScoreboard(points) {
+    POINTS += points;
+    document.getElementById('score').innerHTML = pad(POINTS, 14);
+}
+
+function pushPoints() {
+    // pushing points
+    $.post('http://node02.kanobu.ru/api/apps/knb-ai-medinsky', {score: Game.points})
+    .done(function(data){
+        POINTS = data.result;
+        addPointsToScoreboard(0);
+    })
+    .fail(function(jqXhr){
+        console.log(jqXhr.responseText);
+    });
+}
+
+function getPoints() {
+    $.get('http://node02.kanobu.ru/api/apps/knb-ai-medinsky')
+    .done(function(data){
+        POINTS = data.result;
+        addPointsToScoreboard(0);
+    });
+}
 
 var startGame = function() {
+    getPoints();
+
   var ua = navigator.userAgent.toLowerCase();
 
   // Only 1 row of stars
@@ -44,19 +117,39 @@ var startGame = function() {
   Game.setBoard(3,new TitleScreen("Симулятор Мединского",
                                   "Нажмите пробел для начала",
                                   playGame));
-  randPhrase();
 };
 
-var randPhrase = function() {
-    if(PHRAZE_TOGGLE){
-        var phrase = phrases[getRandomInt(0, phrases.length - 1)]
-        var element = document.getElementById('phrase');
-        element.innerHTML = phrase;
+var randPhrase = function(type) {
+    var death_phrases = [
+        "[...] зная свою слабость, в компьютерные игры не играю. Надо понимать, что детям этого нельзя совсем. Это зло.",
+        "Все компьютерные игры, что бы вам ни говорили, есть абсолютное зло. Это дьявол.",
+        "Я сам у себя дома почти все телеканалы заблокировал, чтобы дети не смотрели.",
+        "[Игры] – это зло, это пожиратели, как у Стивена Кинга, которые пожирали пространство и время."
+    ]
+
+    var win_phrases = [
+        "Особенно, на мой взгляд, отвратительно — это все компьютерные игры.",
+        "Я отключил интернет у детей в телефонах. Так они теперь ищут wi-fi. Надо вообще отобрать у них смартфоны.",
+        "Компьютерные игры, за редчайшим исключением, вещь исключительно вредная. За редким исключением, подтверждающим правило."
+    ]
+
+    var arr = [];
+
+    switch(type) {
+        case 'death':
+            arr = death_phrases;
+            break;
+
+        case 'win':
+            arr = win_phrases;
+            break;
+        default:
+            break;
     }
 
-    setTimeout(function(){
-        //randPhrase();
-    }, getRandomInt(5000, 7000));
+    var phrase = arr[getRandomInt(0, arr.length - 1)]
+    var element = document.getElementById('phrase');
+    element.innerHTML = phrase;
 }
 
 var sayPhrase = function(phrase) {
@@ -71,7 +164,6 @@ function getRandomInt(min, max) {
 
 var levels = [
     [
-        // Start,   End, Gap,  Type,   Override
         [ 0,      4000,  500, 'step' ],
         [ 6000,   13000, 800, 'ltr' ],
         [ 10000,  16000, 400, 'circle' ],
@@ -82,44 +174,58 @@ var levels = [
         [ 22000,  25000, 400, 'wiggle', { x: 100 }]
     ],
     [
-        // Start,   End, Gap,  Type,   Override
-        [ 0,      4000,  500, 'step' ],
-        [ 6000,   13000, 800, 'ltr' ],
-        [ 10000,  16000, 400, 'circle' ],
-        [ 17800,  20000, 500, 'straight', { x: 50 } ],
-        [ 18200,  20000, 500, 'straight', { x: 90 } ],
-        [ 18200,  20000, 500, 'straight', { x: 10 } ],
-        [ 22000,  25000, 400, 'wiggle', { x: 150 }],
-        [ 22000,  25000, 400, 'wiggle', { x: 100 }]
+        [ 0,   13000, 500, 'wiggle', {x: 200} ],
+        [ 0,  16000, 400, 'circle' ],
+        [ 17000, 28000, 500, 'ltr'],
+        [ 17000, 28000, 500, 'ltr', {x: 200}],
+        [ 28000, 32000, 400, 'straight', {x: 100}],
+        [ 28000, 32000, 400, 'straight', {x: 140}],
+        [ 28000, 32000, 400, 'straight', {x: 180}],
+        [ 33000, 27000, 500, 'wiggle'],
+        [ 33000, 27000, 500, 'step', {x: 180}]
+    ],
+    [
+        [ 0, 8000, 400, 'step'],
+        [ 0, 8000, 400, 'step', {x: 180}],
+        [ 3000, 8000, 400, 'circle'],
+        [ 7000, 12000, 500, 'ltr'],
+        [ 9000,  15000, 400, 'wiggle', { x: 150 }],
+        [ 9000,  15000, 400, 'wiggle', { x: 200 }],
+        [ 12000, 15000, 300, 'straight'],
+        [ 13000, 28000, 500, 'circle'],
+        [ 17000, 28000, 500, 'ltr'],
+        [ 17000, 28000, 500, 'ltr', {x: 200}],
+        [ 32000, 40000, 500, 'circle'],
+        [ 32000, 40000, 500, 'circle', {x: 20}],
+        [ 32000, 40000, 500, 'circle', {x: 100}],
+        [ 32000, 40000, 500, 'straight', {x: 90}],
+        [ 32000, 40000, 500, 'straight', {x: 170}]
     ]
 ];
 
 var phrases = [
     "Культура и покемоны не имеют ничего общего.",
-    "[Игры] – это зло, это пожиратели, как у Стивена Кинга, которые пожирали пространство и время.",
-    "Культура пронизывает все сферы человеческой жизни... какие рубашки носим и как часто меняем носки.",
-    "Я сам у себя дома почти все телеканалы заблокировал, чтобы дети не смотрели.",
-    "Я сам чуть-чуть писатель",
-    "Когда был Ленин маленький, С кудрявой головой, Носил он Reebok старенький И Levis голубой.",
-    "Кто у нас либералы, вы мне скажите? Интернет-кликуши и их кумиры? Это не либералы, это тоталитарная секта — по части терпимости те, кого принято именовать «мракобесами и ретроградами», гораздо терпимее и объективнее так называемых либералов."
+    "Я пережил то время, когда играл. Играл в начале 90-х годов, когда «Тетрис» появился, и сразу понял, что это зло.",
+    "[Doom] я стер. Навсегда. Так хотел его уничтожить, что уничтожил все программное обеспечение на компьютере."
 ];
 
 
 
 var playGame = function() {
-  //var board = new GameBoard();
-  //board.add(new PlayerShip());
-  //board.add(new Level(level1,winGame));
-  //Game.setBoard(3,board);
-  launchLvl(0);
-  Game.setBoard(5,new GamePoints(0));
-
-  PHRAZE_TOGGLE = true;
+  LEVEL = 0;
   changeMed('');
   sayPhrase("Я готов!");
+  launchLvl(0);
+  Game.setBoard(5,new GamePoints(0));
+  $('.overlay').removeClass('show');
+  $('#share').removeClass('show');
+  $('.shareBtn').removeClass('show');
+  $('.playAgain').removeClass('show');
 };
 
-var launchLvl = function(lvl) {
+var launchLvl = function() {
+    changeMed('');
+    sayPhrase(phrases[LEVEL]);
     var board = new GameBoard();
     board.add(new PlayerShip());
     if (LEVEL + 1 === levels.length) {
@@ -131,30 +237,42 @@ var launchLvl = function(lvl) {
 }
 
 var winLvl = function() {
-  changeMed('win');
-  sayPhrase(phrases[LEVEL]);
-
   LEVEL += 1;
   Game.setBoard(3,new TitleScreen("Уровень пройден!",
-                                  "Нажмите «огонь», чтобы уничтожить еще игр",
+                                  "Нажмите «огонь», чтобы уничтожить больше игр",
                                   launchLvl, LEVEL));
+  changeMed('win');
+  randPhrase('win');
 };
 
 
 var winGame = function() {
-  Game.setBoard(3,new TitleScreen("Победа!",
-                                  "Нажмите «огонь», чтобы уничтожить еще игр",
+  Game.setBoard(3,new TitleScreen("Культура спасена!",
+                                  "Нажмите «огонь», чтобы уничтожить еще больше игр",
                                   playGame));
   changeMed('win');
-  sayPhrase("Самое отвратительное – это компьютерные игры.");
+  randPhrase('win');
+  pushPoints();
+
+  share();
+  $('.overlay').addClass('show');
+  $('#share').addClass('show');
+  $('.shareBtn').addClass('show');
+  $('.playAgain').addClass('show');
 };
 
 var loseGame = function() {
   Game.setBoard(3,new TitleScreen("Игры вас победили",
-                                  "Нажмите «огнь», чтобы сразиться со злом",
+                                  "Нажмите «огонь», чтобы сразиться со злом",
                                   playGame));
   changeMed('loose');
-  sayPhrase("[...] зная свою слабость, в компьютерные игры не играю. Надо понимать, что детям этого нельзя совсем. Это зло.");
+  randPhrase('death');
+  pushPoints();
+  share();
+  $('.overlay').addClass('show');
+  $('#share').addClass('show');
+  $('.shareBtn').addClass('show');
+  $('.playAgain').addClass('show');
 };
 
 var changeMed = function(type) {
@@ -347,6 +465,8 @@ Enemy.prototype.hit = function(damage) {
   if(this.health <=0) {
     if(this.board.remove(this)) {
       Game.points += this.points || 1;
+      addPointsToScoreboard(1);
+
       this.board.add(new Explosion(this.x + this.w/2,
                                    this.y + this.h/2));
     }
@@ -393,3 +513,243 @@ Explosion.prototype.step = function(dt) {
 window.addEventListener("load", function() {
   Game.initialize("game",sprites,startGame);
 });
+
+// sharing
+share = function(){
+        var shareCanvas = $('#share')[0];
+        var sctx = shareCanvas.getContext('2d');
+
+        // draw bg
+        var img = $('#shareImg')[0];
+        sctx.drawImage(img, 0, 0, 600, 300);
+
+        // draw frame
+        sctx.strokeStyle = "rgba(255,255,255,0.6)";
+        sctx.strokeRect(20,20, 560, 260);
+
+        // draw text
+        sctx.fillStyle = "#fff";
+        sctx.textAlign = "center";
+        sctx.textBaseline = "bottom";
+        sctx.font = "bold 18px arial";
+        sctx.fillText('СЕГОДНЯ Я ЗАПРЕТИЛ', 300, 70);
+
+        // draw subtitle
+        sctx.textBaseline = "top";
+        sctx.fillText('ИГР', 300, 160);
+
+        // draw score
+
+            // scoring magic
+            if (window.localStorage.getItem('score') === null) {
+                SCORE = Game.points.toString();
+
+            } else if (window.localStorage.getItem('score') === "NaN") {
+                SCORE = Game.points.toString();
+            } else {
+                SCORE = (parseInt(window.localStorage.getItem('score')) + Game.points).toString();
+            }
+
+            window.localStorage.setItem('score', SCORE);
+
+            // actual drawing
+            sctx.fillStyle = "#f1c40f";
+            sctx.textBaseline = "top";
+            sctx.font = "70px DS Dots Medium";
+            sctx.fillText(SCORE, 300, 70);
+
+        // draw med
+        var med = $('#medImg')[0];
+        sctx.drawImage(med, 50, 200, 50, 65);
+
+        // draw angled thingie
+        sctx.fillStyle = "#000";
+        sctx.rotate(45 * Math.PI / 180);
+        sctx.strokeRect(250,60,20,20);
+
+        // reset current transformation matrix to the identity matrix
+        sctx.setTransform(1, 0, 0, 1, 0, 0);
+
+        // draw speech "bubble"
+        sctx.fillRect(135, 202, 425, 60);
+        sctx.strokeRect(135, 202, 425, 60);
+        sctx.rotate(45 * Math.PI / 180);
+        sctx.fillRect(251,59,20,20);
+
+        // reset current transformation matrix to the identity matrix
+        sctx.setTransform(1, 0, 0, 1, 0, 0);
+
+        // say stuff
+        var phrases = [
+            "Особенно, на мой взгляд, отвратительно — это все компьютерные игры.",
+            "Я отключил интернет у детей в телефонах. Так они теперь ищут wi-fi. Надо вообще отобрать у них смартфоны.",
+            "Компьютерные игры, за редчайшим исключением, вещь исключительно вредная. За редким исключением, подтверждающим правило.",
+            "Я пережил то время, когда играл. Играл в начале 90-х годов, когда «Тетрис» появился, и сразу понял, что это зло.",
+            "[Doom] я стер. Навсегда. Так хотел его уничтожить, что уничтожил все программное обеспечение на компьютере.",
+            "[...] зная свою слабость, в компьютерные игры не играю. Надо понимать, что детям этого нельзя совсем. Это зло!",
+            "Все компьютерные игры, что бы вам ни говорили, есть абсолютное зло. Это дьявол.",
+            "Когда кино — мозг отдыхает, потому что за тебя все придумано. С компьютерными играми это доведено до абсурда.",
+            "[...] тот факт, что Россия еще сохранилась и развивается, говорит, что у нашего народа имеется одна лишняя хромосома.",
+            "[Игры] – это зло, это пожиратели, как у Стивена Кинга, которые пожирали пространство и время.",
+            "Я сам у себя дома почти все телеканалы заблокировал, чтобы дети не смотрели."
+        ];
+        var phrase = phrases[getRandomInt(0, phrases.length - 1)];
+
+        sctx.fillStyle = "#fff";
+        sctx.textAlign = "left";
+        sctx.textBaseline = "bottom";
+        sctx.font = "14px arial";
+        phrase = wordWrap(phrase, 50);
+        var i = 0;
+
+        var topPos = 225;
+
+        while (phrase.indexOf('\n') > -1) {
+            var currPart = phrase.substr(0, phrase.indexOf('\n'));
+            sctx.fillText(currPart, 150, topPos + 15 * i);
+            phrase = phrase.substr(phrase.indexOf('\n') + 1, phrase.length);
+            i += 1;
+        };
+
+        if (i === 0) {
+            sctx.fillText(phrase, 150, topPos);
+        } else {
+            sctx.fillText(phrase, 150, topPos + 15 * i);
+        }
+};
+
+(function(){
+    $(document).ready(function() {
+        $('.playAgain').click(function() {
+            $('.overlay').removeClass('show');
+            $('#share').removeClass('show');
+            $('.shareBtn').removeClass('show');
+            $('.playAgain').removeClass('show');
+        });
+
+        $('.shareBtn').click(function() {
+            switch($(this).data('soc')) {
+                case 'vkontakte':
+                    $.post(
+                        'http://node02.kanobu.ru/api/apps/knb-ai-medinsky/share',
+                        {
+                            base64Img: $('#share')[0].toDataURL('image/jpeg', 0.8)
+                        }
+                    )
+                    .done(function(data) {
+                        Share.vkontakte('http://kanobu.ru', 'Симулятор Мединского 3000 - запрети все игры!', data.result, 'Сегодня я запретил ' + SCORE + ' игр. Я спас культуру!');
+                    })
+                    .fail(function(jqXhr) {
+                        console.log(jqXhr);
+                    });
+
+                    break;
+                case 'facebook':
+                    $.post(
+                        'http://node02.kanobu.ru/api/apps/knb-ai-medinsky/share',
+                        {
+                            base64Img: $('#share')[0].toDataURL('image/jpeg', 0.8)
+                        }
+                    )
+                    .done(function(data) {
+                        Share.facebook('http://kanobu.ru', 'Симулятор Мединского 3000 - запрети все игры!', data.result, 'Сегодня я запретил ' + SCORE + ' игр. Я спас культуру!');
+                    })
+                    .fail(function(jqXhr) {
+                        console.log(jqXhr);
+                    });
+                    break;
+                case 'twitter':
+                    $.post(
+                        'http://node02.kanobu.ru/api/apps/knb-ai-medinsky/share',
+                        {
+                            base64Img: $('#share')[0].toDataURL('image/jpeg', 0.8)
+                        }
+                    )
+                    .done(function(data) {
+                        Share.twitter('http://kanobu.ru', 'Симулятор Мединского 3000 - запрети все игры!');
+                    })
+                    .fail(function(jqXhr) {
+                        console.log(jqXhr);
+                    });
+                    break;
+            }
+        })
+    });
+})();
+
+// word wrap
+function wordWrap(str, maxWidth) {
+    var newLineStr = "\n"; done = false; res = '';
+    do {
+        found = false;
+        // Inserts new line at first whitespace of the line
+        for (i = maxWidth - 1; i >= 0; i--) {
+            if (testWhite(str.charAt(i))) {
+                res = res + [str.slice(0, i), newLineStr].join('');
+                str = str.slice(i + 1);
+                found = true;
+                break;
+            }
+        }
+        // Inserts new line at maxWidth position, the word is too long to wrap
+        if (!found) {
+            res += [str.slice(0, maxWidth), newLineStr].join('');
+            str = str.slice(maxWidth);
+        }
+
+        if (str.length < maxWidth)
+            done = true;
+    } while (!done);
+
+    return res+str;
+}
+
+function testWhite(x) {
+    var white = new RegExp(/^\s$/);
+    return white.test(x.charAt(0));
+};
+
+Share = {
+	vkontakte: function(purl, ptitle, pimg, text) {
+		url  = 'http://vkontakte.ru/share.php?';
+		url += 'url='          + encodeURIComponent(purl);
+		url += '&title='       + encodeURIComponent(ptitle);
+		url += '&description=' + encodeURIComponent(text);
+		url += '&image='       + encodeURIComponent(pimg);
+		url += '&noparse=true';
+		Share.popup(url);
+	},
+	odnoklassniki: function(purl, text) {
+		url  = 'http://www.odnoklassniki.ru/dk?st.cmd=addShare&st.s=1';
+		url += '&st.comments=' + encodeURIComponent(text);
+		url += '&st._surl='    + encodeURIComponent(purl);
+		Share.popup(url);
+	},
+	facebook: function(purl, ptitle, pimg, text) {
+		url  = 'http://www.facebook.com/sharer.php?s=100';
+		url += '&p[title]='     + encodeURIComponent(ptitle);
+		url += '&p[summary]='   + encodeURIComponent(text);
+		url += '&p[url]='       + encodeURIComponent(purl);
+		url += '&p[images][0]=' + encodeURIComponent(pimg);
+		Share.popup(url);
+	},
+	twitter: function(purl, ptitle) {
+		url  = 'http://twitter.com/share?';
+		url += 'text='      + encodeURIComponent(ptitle);
+		url += '&url='      + encodeURIComponent(purl);
+		url += '&counturl=' + encodeURIComponent(purl);
+		Share.popup(url);
+	},
+	mailru: function(purl, ptitle, pimg, text) {
+		url  = 'http://connect.mail.ru/share?';
+		url += 'url='          + encodeURIComponent(purl);
+		url += '&title='       + encodeURIComponent(ptitle);
+		url += '&description=' + encodeURIComponent(text);
+		url += '&imageurl='    + encodeURIComponent(pimg);
+		Share.popup(url)
+	},
+
+	popup: function(url) {
+		window.open(url,'','toolbar=0,status=0,width=626,height=436');
+	}
+};

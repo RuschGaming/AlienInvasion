@@ -47,6 +47,17 @@ table {
 	border-spacing: 0;
 }
 
+@font-face {
+	font-family:"DS Dots Medium";
+	src:
+		url("fonts/dsdots.eot?") format("eot"),
+		url("fonts/dsdots.woff") format("woff"),
+		url("fonts/dsdots.ttf") format("truetype"),
+		url("fonts/dsdots.svg#DSDots-Medium") format("svg");
+	font-weight:normal;
+	font-style:normal;
+}
+
 
 .wrapper{
 	width: 639px;
@@ -61,6 +72,7 @@ table {
   border: 2px solid rgba(255,255,255,0.6);
   background: black;
   width:615px;
+  position: relative;
 }
 
 /* Give canvas a background */
@@ -120,4 +132,108 @@ canvas {
 
 .clearfix {
 	clear: both;
+}
+
+/* SCORES */
+.score-holder {
+    padding: 15px 20px 20px 20px;
+	margin-bottom: 20px;
+	border-bottom: 2px solid rgba(255,255,255,0.6);
+	color: #f1c40f;
+	position: relative;
+	text-align: center;
+}
+
+#score {
+	font-family: 'DS Dots Medium', sans-serif;
+	font-size: 40px
+}
+
+#score:before {
+    content: 'Всего игр запрещено';
+    font-size: 12px;
+    position: absolute;
+    top: 2px;
+    text-transform: uppercase;
+    color: #fff;
+}
+
+/* sharing */
+
+#share {
+	display: none;
+	width: 600px;
+	height: 300px;
+	top: 80px;
+	position: absolute;
+	z-index: 100;
+	left: 20px;
+}
+
+#share.show {
+	display: block;
+}
+
+.shareBtn, .playAgain {
+	display: none;
+	width: auto;
+	position: absolute;
+	bottom: 140px;
+	color: #fff;
+	padding: 15px;
+	background: #000;
+	margin: 20px;
+	font-family: 'Arial';
+	border: 2px solid rgba(255,255,255,0.6);
+	z-index: 100;
+}
+
+.shareBtn.show, .playAgain.show {
+	display: block;
+}
+
+.shareBtn {
+	bottom: 50px;
+	left: 210px;
+	height: 16px;
+}
+
+.shareBtn img {
+	max-width: 20px;
+}
+
+.playAgain {
+	right: 232px;
+}
+
+.shareBtn.fb {
+	left: 271px;
+}
+
+.shareBtn.tw {
+	left: 333px;
+}
+
+.shareBtn.vk.show:before {
+	content: 'Поделись результатом с друзьями';
+	position: absolute;
+	width: 400px;
+	top: -30px;
+	text-align: center;
+	left: -110px
+}
+
+.overlay {
+	width: 639px;
+	height: 601px;
+	position: absolute;
+	z-index: 99;
+	background: #000;
+	top: -2px;
+	left: -2px;
+	display: none;
+}
+
+.overlay.show {
+	display: block;
 }
