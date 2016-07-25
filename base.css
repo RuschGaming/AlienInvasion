@@ -164,7 +164,7 @@ canvas {
 	display: none;
 	width: 600px;
 	height: 300px;
-	top: 80px;
+	top: 50px;
 	position: absolute;
 	z-index: 100;
 	left: 20px;
@@ -178,7 +178,7 @@ canvas {
 	display: none;
 	width: auto;
 	position: absolute;
-	bottom: 140px;
+	bottom: 170px;
 	color: #fff;
 	padding: 15px;
 	background: #000;
@@ -190,10 +190,11 @@ canvas {
 
 .shareBtn.show, .playAgain.show {
 	display: block;
+	cursor: pointer;
 }
 
 .shareBtn {
-	bottom: 50px;
+	bottom: 80px;
 	left: 210px;
 	height: 16px;
 }
@@ -212,6 +213,11 @@ canvas {
 
 .shareBtn.tw {
 	left: 333px;
+}
+
+.shareBtn.img {
+	bottom: 20px;
+	left: 225px
 }
 
 .shareBtn.vk.show:before {

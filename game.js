@@ -625,6 +625,8 @@ share = function(){
             $('#share').removeClass('show');
             $('.shareBtn').removeClass('show');
             $('.playAgain').removeClass('show');
+
+            $('.shareBtn.img').text('Прямая ссылка').css({left: '225px'});
         });
 
         $('.shareBtn').click(function() {
@@ -637,7 +639,7 @@ share = function(){
                         }
                     )
                     .done(function(data) {
-                        Share.vkontakte('http://kanobu.ru', 'Симулятор Мединского 3000 - запрети все игры!', data.result, 'Сегодня я запретил ' + SCORE + ' игр. Я спас культуру!');
+                        Share.vkontakte('http://kanobu.ru/articles/simulyator-medinskogo-3000-zapreti-vse-igryi-369592/', 'Симулятор Мединского 3000 - запрети все игры!', data.result, 'Сегодня я запретил ' + SCORE + ' игр. Я спас культуру!');
                     })
                     .fail(function(jqXhr) {
                         console.log(jqXhr);
@@ -652,7 +654,7 @@ share = function(){
                         }
                     )
                     .done(function(data) {
-                        Share.facebook('http://kanobu.ru', 'Симулятор Мединского 3000 - запрети все игры!', data.result, 'Сегодня я запретил ' + SCORE + ' игр. Я спас культуру!');
+                        Share.facebook('http://kanobu.ru/articles/simulyator-medinskogo-3000-zapreti-vse-igryi-369592/', 'Симулятор Мединского 3000 - запрети все игры!', data.result, 'Сегодня я запретил ' + SCORE + ' игр. Я спас культуру!');
                     })
                     .fail(function(jqXhr) {
                         console.log(jqXhr);
@@ -666,7 +668,21 @@ share = function(){
                         }
                     )
                     .done(function(data) {
-                        Share.twitter('http://kanobu.ru', 'Симулятор Мединского 3000 - запрети все игры!');
+                        Share.twitter('http://kanobu.ru/articles/simulyator-medinskogo-3000-zapreti-vse-igryi-369592/', 'Симулятор Мединского 3000 - запрети все игры!');
+                    })
+                    .fail(function(jqXhr) {
+                        console.log(jqXhr);
+                    });
+                    break;
+                default:
+                    $.post(
+                        'http://node02.kanobu.ru/api/apps/knb-ai-medinsky/share',
+                        {
+                            base64Img: $('#share')[0].toDataURL('image/jpeg', 0.8)
+                        }
+                    )
+                    .done(function(data) {
+                        $('.shareBtn.img').text(data.result).css({left: '90px'});
                     })
                     .fail(function(jqXhr) {
                         console.log(jqXhr);
